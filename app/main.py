@@ -2,10 +2,10 @@ from flask import Flask, render_template, request
 import boto3
 import uuid
 
-app = Flask(__name__)
-dynamodb = boto3.resource('dynamodb')
-s3 = boto3.client('s3')
-sns = boto3.client('sns')
+app = Flask(job_portal)
+dynamodb = boto3.resource('dynamodb', region_name='ap-south-1')
+s3 = boto3.client('s3', region_name='ap-south-1')
+sns = boto3.client('sns', region_name='ap-south-1')
 
 TABLE_NAME = 'Applications'
 BUCKET_NAME = 'your-resume-bucket'
