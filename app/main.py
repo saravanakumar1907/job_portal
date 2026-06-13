@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 import boto3
 import uuid
 
-app = Flask(job_portal)
+app = Flask(__name__)
 dynamodb = boto3.resource('dynamodb', region_name='ap-south-1')
 s3 = boto3.client('s3', region_name='ap-south-1')
 sns = boto3.client('sns', region_name='ap-south-1')
