@@ -39,6 +39,7 @@ def apply():
         )
 
         return "Application submitted successfully!"
+        
        return render_template('form.html')
 
 
