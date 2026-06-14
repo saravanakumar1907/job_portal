@@ -20,7 +20,7 @@ sns = boto3.client('sns', region_name='ap-south-1')
 # Replace these with your actual values
 TABLE_NAME = 'Applications'
 BUCKET_NAME = 'bucket-resume-s3'
-TOPIC_ARN = 'arn:aws:sns:ap-south-1:509784656407:job-application-topic, arn:aws:sns:ap-south-1:784803613582:Job_application-topic'
+TOPIC_ARN = 'arn:aws:sns:ap-south-1:509784656407:job-application-topic'
  
  
 @app.route('/', methods=['GET', 'POST'])
