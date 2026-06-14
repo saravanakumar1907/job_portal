@@ -3,6 +3,7 @@ import boto3
 import uuid
 
 app = Flask(__name__)
+
 dynamodb = boto3.resource('dynamodb', region_name='ap-south-1')
 s3 = boto3.client('s3', region_name='ap-south-1')
 sns = boto3.client('sns', region_name='ap-south-1')
@@ -10,6 +11,7 @@ sns = boto3.client('sns', region_name='ap-south-1')
 TABLE_NAME = 'Applications'
 BUCKET_NAME = 'your-resume-bucket'
 TOPIC_ARN = 'arn:aws:sns:region:account-id:your-topic'
+
 
 @app.route('/', methods=['GET', 'POST'])
 def apply():
@@ -20,16 +22,22 @@ def apply():
         app_id = str(uuid.uuid4())
 
         # Upload resume to S3
-        s3.upload_fileobj(resume, BUCKET_NAME, f"{app_id}-{resume.filename}")
+        s3.upload_fileobj(
+            resume,
+            BUCKET_NAME,
+            f"{app_id}-{resume.filename}"
+        )
 
-        # Store to DynamoDB
+        # Store in DynamoDB
         table = dynamodb.Table(TABLE_NAME)
-        table.put_item(Item={
-            'application_id': app_id,
-            'name': name,
-            'email': email,
-            'resume_key': f"{app_id}-{resume.filename}"
-        })
+        table.put_item(
+            Item={
+                'application_id': app_id,
+                'name': name,
+                'email': email,
+                'resume_key': f"{app_id}-{resume.filename}"
+            }
+        )
 
         # Send SNS notification
         sns.publish(
@@ -39,8 +47,8 @@ def apply():
         )
 
         return "Application submitted successfully!"
-        
-       return render_template('form.html')
+
+    return render_template('form.html')
 
 
 if __name__ == '__main__':
